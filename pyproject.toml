@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "adversarial-backgammon"
+version = "0.1.0"
+description = "Backgammon with LLM agents (Ollama), move annotation/teaching, and an OptiX ray-traced 3D board"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.26"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+gui = ["PySide6-Essentials>=6.8"]
+
+[project.scripts]
+backgammon = "backgammon.interface.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["backgammon*"]
+
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib"
+testpaths = [
+    "backgammon/engine/tests",
+    "backgammon/render/tests",
+    "backgammon/agents/tests",
+    "backgammon/annotation/tests",
+    "backgammon/interface/tests",
+]
+markers = [
+    "gpu: needs the compiled OptiX renderer and an RTX GPU",
+    "ollama: needs a running Ollama server with a model pulled",
+]
